@@ -1,35 +1,56 @@
-import React, { Component } from 'react'
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import styled from "styled-components";
+const SuggList = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  transition: height 0.4s linear;
+  border: 2px solid #1e88e5;
+  border-top: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-sizing: border-box;
+  padding: 10px 0 10px;
+  &:before{
+    content:"";
+    left: 2%;
+    width: 96%;
+    height: 2px;
+    position: absolute;
+    background-color: #f0f0f0;
+  }
+`;
+const SuggItem = styled.div`
+  height: 48px;
+  line-height: 48px;
+  text-align: left;
+  font-size: 13pt;
+  padding-left: 13px;
+  color: #525252;
+  background-color: white;
+  cursor: default;
+  
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
 
-export default class AutoComplete extends Component {
-    render() {
-        let mixin = ''
-        if (!this.props.show) {
-            mixin = ' hide'
+
+export default class Suggest extends Component {
+  render() {
+    return (
+      <SuggList style={{ display: (this.props.show ? "block" : "none") }} onClick={this.props.onSuggest}>
+        {
+          this.props.sug.map((item, index) => (
+            <SuggItem key={index}>
+              {item.keyword}
+              {(index < 3) && <link/>}
+            </SuggItem>
+          ))
         }
-        if (this.props.loading) {
-            return (<div className={"item" + mixin}>正在请求中...</div>)
-        } else if (this.props.errorMsg) {
-            return (<div className={"item" + mixin}>{this.props.errorMsg}</div>)
-        } else if (!this.props.sug || this.props.sug.length === 0) {
-            return (<div className={"item" + mixin}>找不到提示信息, 换个搜索词吧...</div>)
-        } else {
-            return (
-                <div className={"autocomplete" + mixin}>
-                    {
-                        this.props.sug.map(item => (
-                            <Link key={item.keyword} to={{
-                                pathname: "/search",
-                                query: { keyword: item.keyword }
-                            }}>
-                                <div className="item">
-                                    {item.keyword}
-                                </div>
-                            </Link>
-                        ))
-                    }
-                </div >
-            )
-        }
-    }
+      </SuggList >
+    );
+  }
 }
