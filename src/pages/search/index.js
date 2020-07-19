@@ -18,15 +18,20 @@ class SearchPage extends Component {
   constructor(props) {
     super(props);
     let params = queryString.parse(this.props.location.search)
-    var keyword = params.keyword.trim()
+    var keyword = params.keyword?.trim()
     var offset = (Number(params.offset) || 0)
     this.state.keyword = keyword
     this.state.offset = offset
     if (keyword !== '') {
       search(keyword, offset).then((result) => {
+        if (this.unmount) return
         this.setState({ result });
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.unmount = true;
   }
 
   state = {
@@ -39,6 +44,7 @@ class SearchPage extends Component {
     this.setState({ keyword, offset });
     if (keyword !== '') {
       search(keyword, offset).then((result) => {
+        if (this.unmount) return
         this.setState({ result });
       });
     }
@@ -51,18 +57,18 @@ class SearchPage extends Component {
   }
 
   prev() {
-    this.RedirectTo(this.state.keyword, Math.max(0, this.state.offset - 9))
+    this.RedirectTo(this.state.keyword, Math.max(0, this.state.offset - 10))
   }
 
   next() {
-    this.RedirectTo(this.state.keyword, this.state.offset + 9)
+    this.RedirectTo(this.state.keyword, this.state.offset + 10)
   }
 
   render() {
     return (
       <Container>
         <SearchBar initValue={this.state.keyword} onSearch={this.handleSearch.bind(this)} />
-        <Swiper page={1 + Math.ceil(this.state.offset / 9)} prev={this.prev.bind(this)} next={this.next.bind(this)} data={this.state.result} />
+        <Swiper page={1 + Math.ceil(this.state.offset / 10)} prev={this.prev.bind(this)} next={this.next.bind(this)} data={this.state.result} />
       </Container>
     );
   }

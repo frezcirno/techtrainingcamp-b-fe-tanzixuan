@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from 'styled-components'
-import { createMemoryHistory } from 'history';
 import HomePage from './pages/home'
 import SearchPage from './pages/search'
 
@@ -143,12 +142,10 @@ html {
   }
 `;
 
-const history = createMemoryHistory();
-
 class App extends Component {
   render() {
     return (
-      <Router history={history}>
+      <Router>
         <GlobalStyle />
         <Switch>
           <Route path="/" exact component={HomePage}></Route>

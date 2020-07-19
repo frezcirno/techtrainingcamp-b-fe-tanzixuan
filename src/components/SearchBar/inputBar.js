@@ -36,7 +36,7 @@ class InputBar extends Component {
           value={this.props.value}
           onChange={this.props.onChange}
           onClick={this.props.onClick}
-          onKeyUp={(e) => { if (e.keyCode == 13) { this.props.onSearch(this.props.value) } }}
+          onKeyUp={(e) => { if (e.keyCode === 13) { this.props.onSearch(this.props.value) } }}
           type="text"
           placeholder="请输入搜索内容"
           autoComplete="off"

@@ -20,7 +20,7 @@ class HomePage extends Component {
     render() {
         return (
             <StyledHome>
-                <h1 style={{ margin: "50px auto", textAlign: "center" }}>ByteSearch</h1>
+                <h1 style={{ margin: "50px auto", textAlign: "center" }}>SparrowSearch</h1>
                 <SearchBar style={{ width: "600px", margin: "50px auto 0" }} onSearch={this.handleSearch.bind(this)} />
             </StyledHome >
         )

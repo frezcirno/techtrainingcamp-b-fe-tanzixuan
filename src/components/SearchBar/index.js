@@ -16,11 +16,9 @@ const StyledSearchBar = styled.div`
 class SearchBar extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            keyword: this.props.initValue || '',
-            focus: false,
-            sug: []
-        }
+        this.state.keyword = this.props.initValue || ''
+        this.state.focus = false
+        this.state.sug = []
     }
 
     state = {
@@ -37,6 +35,10 @@ class SearchBar extends Component {
         })
     }
 
+    componentWillUnmount() {
+        this.unmount = true
+    }
+
     get_suggest(keyword) {
         if (this.timer) {
             clearTimeout(this.timer);
@@ -50,12 +52,13 @@ class SearchBar extends Component {
         this.timer = setTimeout(() => {
             searchsug(keyword)
                 .then((res) => {
-                    console.log(res);
+                    if (this.unmount) return
                     this.setState({
                         sug: res.data,
                     });
                 })
                 .catch((err) => {
+                    if (this.unmount) return
                     this.setState({
                         errorMsg: err.message,
                     });
@@ -72,7 +75,6 @@ class SearchBar extends Component {
     handleSuggest(e) {
         var keyword = e.target.textContent
         this.setState({ keyword: keyword, focus: false }, () => {
-            console.log(this.state.keyword)
             this.props.onSearch(this.state.keyword)
         })
     }
