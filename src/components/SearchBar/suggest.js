@@ -46,7 +46,7 @@ export default class Suggest extends Component {
           this.props.sug.map((item, index) => (
             <SuggItem key={index}>
               {item.keyword}
-              {(index < 3) && <link/>}
+              {(index < 3) && <link rel="preconnect" href={`//i.snssdk.com/search/api/study?keyword=${item.keyword}&offset=0`} />}
             </SuggItem>
           ))
         }
