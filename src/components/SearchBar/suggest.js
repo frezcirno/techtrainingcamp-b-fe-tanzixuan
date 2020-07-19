@@ -12,7 +12,7 @@ const SuggList = styled.div`
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   box-sizing: border-box;
-  padding: 10px 0 10px;
+  padding: 10px 1px 10px;
   &:before{
     content:"";
     left: 2%;

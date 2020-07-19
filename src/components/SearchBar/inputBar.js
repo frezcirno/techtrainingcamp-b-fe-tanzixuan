@@ -11,8 +11,9 @@ const Input = styled.input`
   border: 0;
   margin-top: 2px;
   margin-left: 13px;
+  margin: 1px 13px;
   height: 44px;
-  width: 635px;
+  width: calc(100% - 60px);
   font-size: 16pt;
   color: #9e9c9c;
 `;
