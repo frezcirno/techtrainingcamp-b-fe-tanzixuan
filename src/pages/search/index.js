@@ -22,11 +22,31 @@ class SearchPage extends Component {
     var offset = (Number(params.offset) || 0)
     this.state.keyword = keyword
     this.state.offset = offset
+    this.getContent(keyword, offset)
+  }
+
+  getContent(keyword, offset) {
     if (keyword !== '') {
       search(keyword, offset).then((result) => {
         if (this.unmount) return
         this.setState({ result });
       });
+    }
+  }
+
+  componentWillUpdate(newprops) {
+    const oldparams = queryString.parse(this.props.location.search)
+    const oldkeyword = oldparams.keyword?.trim()
+    const oldoffset = (Number(oldparams.offset) || 0)
+    const newparams = queryString.parse(newprops.location.search)
+    const newkeyword = newparams.keyword?.trim()
+    const newoffset = (Number(newparams.offset) || 0)
+    console.log('update')
+    console.log(oldkeyword + oldoffset)
+    console.log(newkeyword + newoffset)
+    if (oldkeyword !== newkeyword || oldoffset !== newoffset) {
+      this.setState({ keyword: newkeyword, offset: newoffset });
+      this.getContent(newkeyword, newoffset)
     }
   }
 
@@ -42,12 +62,7 @@ class SearchPage extends Component {
 
   RedirectTo(keyword, offset) {
     this.setState({ keyword, offset });
-    if (keyword !== '') {
-      search(keyword, offset).then((result) => {
-        if (this.unmount) return
-        this.setState({ result });
-      });
-    }
+    // this.getContent(keyword, offset)
     const { history } = this.props
     history.push(`/search?keyword=${keyword}&offset=${offset}`)
   }
